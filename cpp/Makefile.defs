@@ -1,0 +1,4 @@
+#CXXFLAGS = -O3 -msse4a -fopenmp
+CXXFLAGS = -O3 -fopenmp #-DEIGEN_NO_DEBUG 
+
+#CXXFLAGS = -g

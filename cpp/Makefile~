@@ -1,0 +1,9 @@
+
+STEPPS2 ?= $(HOME)/Documents/paleon/stepps2
+
+#include $(STEPPS2)/Makefile210.inc
+include $(STEPPS2)/Makefile240.inc
+
+all: veg_pp.exe
+
+
