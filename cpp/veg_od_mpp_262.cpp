@@ -49,7 +49,7 @@ namespace veg_pp {
     vector_d zeros;
     int W;
     matrix_d eye;
-    matrix_d M;
+    //matrix_d M;
     Eigen::HouseholderQR<vector_d> qr;
     matrix_d fatQ;
     vector_d Q;
@@ -165,15 +165,15 @@ namespace veg_pp {
 
       // eye = matrix_d(N_knots,N_knots).setIdentity();
 
-      stan::math::validate_non_negative_index("M", "N", N);
-      M = matrix_d(N,N);
+      // stan::math::validate_non_negative_index("M", "N", N);
+      // M = matrix_d(N,N);
 
-      for (int j = 1; j <= N; ++j) {
-	for (int i = 1; i <= N; ++i) {
-	  stan::math::assign(get_base1_lhs(M,i,j,"M",1), -(P));
-	}
-	stan::math::assign(get_base1_lhs(M,j,j,"M",1), (1.0 - P));
-      }
+      // for (int j = 1; j <= N; ++j) {
+      // 	for (int i = 1; i <= N; ++i) {
+      // 	  stan::math::assign(get_base1_lhs(M,i,j,"M",1), -(P));
+      // 	}
+      // 	stan::math::assign(get_base1_lhs(M,j,j,"M",1), (1.0 - P));
+      // }
       for (int i = 1; i <= N; ++i) {
 	stan::math::assign(get_base1_lhs(ones,i,"ones",1), 1.0);
       }
