@@ -23,7 +23,7 @@ qsub = """\
 #SBATCH -c {threads}
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=andria.dawson@gmail.com
-#SBATCH --exclude sm-20
+#SBATCH --exclude=sm-20
 
 cd $HOME/Documents/projects/stepps-veg/cpp
 export OMP_NUM_THREADS={threads}
