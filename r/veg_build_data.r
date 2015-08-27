@@ -9,7 +9,7 @@ source('r/utils/veg_build_data_funs.r')
 # suff='wi'
 # suff='rescaled_dist'
 #suff="v0.3"
-suff='test'
+suff='v0.4'
 
 one.eta = FALSE
 bt      = TRUE
@@ -45,6 +45,9 @@ tree_type = read.table('data/assign_HW_CON.csv', sep=',', row.names=1, header=TR
 # pls.raw = data.frame(read.table(file='data/composition_v0.3.csv' , sep=",", row.names=NULL, header=TRUE))
 pls.raw = data.frame(read.table(file='../stepps-data/data/composition/composition_v0.4.csv' , sep=",", row.names=NULL, header=TRUE))
 colnames(pls.raw) = tolower(colnames(pls.raw))
+
+# figure out why chestnut and atlantic.white.cedar are all NA!
+pls.raw = pls.raw[,!(colnames(pls.raw) %in% c('chestnut', 'atlantic.white.cedar'))]
 
 # conversion table
 convert = read.table('data/dict-comp2stepps.csv', sep=',', row.names=1, header=TRUE)
