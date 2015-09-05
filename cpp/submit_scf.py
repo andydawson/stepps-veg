@@ -1,19 +1,33 @@
 
 import subprocess
 
-runs = [ ('veg_120knots_c1',
+runs = [ ('veg_80knots_c1',
           './veg_od_mpp_262.exe \
           sample num_warmup=150 num_samples=1000 save_warmup=1\
-          data file=../r/dump/veg_data_12taxa_6341cells_120knots_v0.4.dump \
-          init=../r/dump/veg_data_12taxa_6341cells_120knots_v0.4_inits.dump \
-          output file=../output/12taxa_6341cells_120knots_v0.4_c1.csv\
+          data file=../r/dump/veg_data_12taxa_6341cells_80knots_v0.4.dump \
+          init=../r/dump/veg_data_12taxa_6341cells_80knots_v0.4_inits.dump \
+          output file=../output/12taxa_6341cells_80knots_v0.4_c1.csv\
           random seed=42'),
-         ('veg_120knots_c2',
+         ('veg_80knots_c2',
           './veg_od_mpp_262.exe \
           sample num_warmup=150 num_samples=1000 save_warmup=1\
-          data file=../r/dump/veg_data_12taxa_6341cells_120knots_v0.4.dump \
-          init=../r/dump/veg_data_12taxa_6341cells_120knots_v0.4_inits.dump \
-          output file=../output/12taxa_6341cells_120knots_v0.4_c2.csv\
+          data file=../r/dump/veg_data_12taxa_6341cells_80knots_v0.4.dump \
+          init=../r/dump/veg_data_12taxa_6341cells_80knots_v0.4_inits.dump \
+          output file=../output/12taxa_6341cells_80knots_v0.4_c2.csv\
+          random seed=42'),
+         ('veg_200knots_c1',
+          './veg_od_mpp_262.exe \
+          sample num_warmup=150 num_samples=1000 save_warmup=1\
+          data file=../r/dump/veg_data_12taxa_6341cells_200knots_v0.4.dump \
+          init=../r/dump/veg_data_12taxa_6341cells_200knots_v0.4_inits.dump \
+          output file=../output/12taxa_6341cells_200knots_v0.4_c1.csv\
+          random seed=42'),
+         ('veg_200knots_c2',
+          './veg_od_mpp_262.exe \
+          sample num_warmup=150 num_samples=1000 save_warmup=1\
+          data file=../r/dump/veg_data_12taxa_6341cells_200knots_v0.4.dump \
+          init=../r/dump/veg_data_12taxa_6341cells_200knots_v0.4_inits.dump \
+          output file=../output/12taxa_6341cells_200knots_v0.4_c2.csv\
           random seed=42')
 ]
 

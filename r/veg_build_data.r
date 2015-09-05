@@ -24,7 +24,9 @@ cells = -1
 #cells = seq(1001, 1050)
 
 clust.rat = 120
-nclust   = 120
+#nclust    = 120
+#nclust    = 80
+nclust = 200
 # clust.rat = 10
 
 # specify the taxa to use
@@ -184,9 +186,8 @@ if (suff != "") {suff = paste('_', suff, sep='')}
 
 dump(c('K', 'N', 'N_knots', 
        'y', 
-       'd', 'd_knots', 'd_inter',
-       'P', 'N_p',
-       'centers_pls', 'knot_coords'), 
+       'd_knots', 'd_inter',
+       'P', 'N_p'), 
      file=paste('r/dump/veg_data_', K, 'taxa_', N, 'cells_', N_knots, 'knots', suff, '.dump',sep=""))
 
 save(K, N, N_knots, 
