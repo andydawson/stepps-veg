@@ -46,26 +46,23 @@ us.fort <- fortify(us.shp, region='id')
 
 # trace plots
 # fit is a stanfit object
-trace_plots <- function(fit, K, suff=suff, save_plots=TRUE, fpath){
+trace_plots <- function(post_dat, K, suff=suff, save_plots=TRUE, fpath){
   
   one.eta = FALSE
   W = K-1 
   
-  col_substr = substr(names(summary(fit)$summary[,'mean']),1,2)
+  par_names = post_dat$par_names
+  post = post_dat$samples
   
-  if (length(which(col_substr == 'et')) == 1){
+  if (length(which(par_names == 'eta')) == 1){
     one.eta = TRUE
   } 
   
-  if (length(which(col_substr == 'rh')) == K){
+  if (length(which(par_names == 'rho')) == K){
     W = K
   }
   
-  post = rstan::extract(fit, permuted=FALSE, inc_warmup=FALSE)
-  
-  #   plotname = make_plotname(type_pars, dim_pars, suff)
-  
-  labels = colnames(post[,1,])
+  labels = colnames(post)
   for (i in 1:length(labels)){
     labels[i]=sub("[","",labels[i],fixed=TRUE) 
     labels[i]=sub("]","",labels[i],fixed=TRUE)
@@ -82,10 +79,10 @@ trace_plots <- function(fit, K, suff=suff, save_plots=TRUE, fpath){
     for (i in 1:W){
       for (j in 1:3){
         Sys.sleep(0.1)
-        plot(post[,1,(j-1)*W + i], type="l", ylab=labels[(j-1)*W + i], xlab="iter")
-        if (dim(post)[2] >= 2){
-          lines(post[,2,i], col="blue")
-        }
+        plot(post[,(j-1)*W + i], type="l", ylab=labels[(j-1)*W + i], xlab="iter")
+#         if (dim(post)[2] >= 2){
+#           lines(post[,i], col="blue")
+#         }
       }
     }
   } else {
@@ -93,7 +90,7 @@ trace_plots <- function(fit, K, suff=suff, save_plots=TRUE, fpath){
     for (i in 1:W){
       for (j in 1:2){
         Sys.sleep(0.1)
-        plot(post[,1,(j-1)*W + i + 1], type="l", ylab=labels[(j-1)*W + i + 1], xlab="iter")
+        plot(post[,(j-1)*W + i + 1], type="l", ylab=labels[(j-1)*W + i + 1], xlab="iter")
 #         if (dim(post)[2] >= 2){
 #           lines(post[,2,i], col="blue")
 #         }
@@ -332,8 +329,8 @@ plot_data_maps_binned <- function(y, centers, taxa, K, breaks, limits, suff, sav
 #                  strip.text.y = element_blank())
   p <- p + theme(strip.background = element_blank())
   
-  print(p)
-  Sys.sleep(2)
+  #print(p)
+  #Sys.sleep(2)
   if (save_plots){
     ggsave(file=paste(fpath, '/veg_maps_', suff, '.pdf', sep=''), scale=1)
     ggsave(file=paste(fpath, '/veg_maps_', suff, '.eps', sep=''), scale=1)

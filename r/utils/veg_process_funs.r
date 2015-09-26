@@ -234,11 +234,14 @@ compute_prop_chains <- function(fit, d_knots, d_inter, K, P, decomp=decomp, bt=b
 }
 
 
-compute_prop_chains_Halpha <- function(post, d_knots, d_inter, K, P, decomp=decomp, bt=bt, mpp=mpp, nug=FALSE){
+compute_prop_chains_Halpha <- function(post_dat, d_knots, d_inter, K, P, decomp=decomp, bt=bt, mpp=mpp, nug=FALSE){
+  
+  par_names = post_dat$par_names
+  post      = post_dat$samples
   
   N = nrow(d_inter)
   N_knots = ncol(d_inter)
-  niters   = nrow(post[,1,]) 
+  niters   = nrow(post) 
   
   # W is the number of fitted taxa
   if (bt){
@@ -266,29 +269,27 @@ compute_prop_chains_Halpha <- function(post, d_knots, d_inter, K, P, decomp=deco
     start.time.k <-Sys.time()
     print(k)
     
+    if (length(which(par_names == 'eta')) == 1){
+      eta   = post[,which(par_names == 'eta')]
+    } else {
+      eta   = post[,which(par_names == 'eta')[k]]
+    }
+    
+    rho   = post[,which(par_names == 'rho')[k]]
+    mu    = post[,which(par_names == 'mu')[k]]
+    
     if (mpp){
-      
-      col_substr = substr(colnames(post[,1,]),1,2)
-      
-      if (length(which(col_substr == 'et')) == 1){
-        eta   = post[,1,which(col_substr == 'et')]
-      } else {
-        eta   = post[,1,which(col_substr == 'et')[k]]
-      }
-      
-      rho   = post[,1,which(col_substr == 'rh')[k]]
-      mu    = post[,1,which(col_substr == 'mu')[k]]
       
       if (nug) {
         knot_cols = seq((4*W + k), (4*W + W*N_knots), by=W) 
-      } else if (length(which(col_substr == 'et')) == 1) {
+      } else if (length(which(par_names == 'eta')) == 1) {
         knot_cols = seq((2*W +1 + k), (2*W + 1 + W*N_knots), by=W)
       } else {
         knot_cols = seq((3*W + k), (3*W + W*N_knots), by=W) 
       }
       
-      
-      alpha     = post[,1, knot_cols]
+      #colnames(post)[knot_cols]
+      alpha     = post[, knot_cols]
       
       for (i in 1:niters){
 #         print('Start matrix mult!')
@@ -313,26 +314,15 @@ compute_prop_chains_Halpha <- function(post, d_knots, d_inter, K, P, decomp=deco
       
       if (nug) {
         g_cols = seq((4*W + W*N_knots + k), (4*W + W*N_knots + W*N), by=W) 
-      } else if (length(which(col_substr == 'et')) == 1) {
+      } else if (length(which(par_names == 'eta')) == 1) {
         g_cols = seq((2*W + 1 + k + W*N_knots), (2*W + 1 + W*N_knots + W*N), by=W)
       } else {
         g_cols = seq((3*W + k + W*N_knots), (3*W + W*N_knots + W*N), by=W) 
       }
       
-      g[k,,] = t(post[,1,g_cols])
+      g[k,,] = t(post[,g_cols])
       
     } else {
-      
-      col_substr = substr(colnames(post[,1,]),1,2)
-      
-      if (length(which(col_substr == 'et')) == 1){
-        eta   = post[,1,which(col_substr == 'et')]
-      } else {
-        eta   = post[,1,which(col_substr == 'et')[k]]
-      }
-      
-      rho   = post[,1,which(col_substr == 'rh')[k]]
-      mu    = post[,1,which(col_substr == 'mu')[k]]
       
       #     if (nug) sigma = post[,1,which(col_substr == 'si')[k]]
       
@@ -349,13 +339,13 @@ compute_prop_chains_Halpha <- function(post, d_knots, d_inter, K, P, decomp=deco
       
       if (nug) {
         knot_cols = seq((4*W + k), (4*W + W*N_knots), by=W) 
-      } else if (length(which(col_substr == 'et')) == 1) {
+      } else if (length(which(par_names == 'eta')) == 1) {
         knot_cols = seq((2*W +1 + k), (2*W + 1 + W*N_knots), by=W)
       } else {
         knot_cols = seq((3*W + k), (3*W + W*N_knots), by=W) 
       }
       
-      alpha     = post[,1, knot_cols]
+      alpha     = post[,knot_cols]
       
       for (i in 1:niters){
 #         print('Start matrix mult!')
@@ -418,12 +408,12 @@ compute_prop_chains_Halpha <- function(post, d_knots, d_inter, K, P, decomp=deco
 }
 
 
-get_mu <- function(post, W){
+get_mu <- function(post_dat, W){
   
-  col_substr = substr(colnames(post[,1,]),1,2)
-  idx_mu = which(col_substr == 'mu')
+  par_names = post_dat$par_names
+  idx_mu = which(par_names == 'mu')
   
-  mu = t(post[,1,idx_mu])
+  mu = post_dat$samples[,idx_mu]
   
   return(mu)
 }
