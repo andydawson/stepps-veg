@@ -46,7 +46,10 @@ tree_type = read.table('data/assign_HW_CON.csv', sep=',', row.names=1, header=TR
 ##########################################################################################################################
 # pls.raw     = data.frame(read.table(file='data/western_comp_stepps_v0.3-1.csv', sep=",", row.names=NULL, header=TRUE))
 # pls.raw = data.frame(read.table(file='data/composition_v0.3.csv' , sep=",", row.names=NULL, header=TRUE))
-pls.raw = data.frame(read.table(file='../stepps-data/data/composition/composition_v0.4.csv' , sep=",", row.names=NULL, header=TRUE))
+# pls.raw = data.frame(read.table(file='../stepps-data/data/composition/composition_v0.4.csv' , sep=",", row.names=NULL, header=TRUE))
+# colnames(pls.raw) = tolower(colnames(pls.raw))
+
+pls.raw = data.frame(read.table(file='../stepps-data/data/pls_umw_v0.5.csv' , sep=",", row.names=NULL, header=TRUE))
 colnames(pls.raw) = tolower(colnames(pls.raw))
 
 # figure out why chestnut and atlantic.white.cedar are all NA!
@@ -110,7 +113,7 @@ if (sum(left %in% taxa_other_con)>1){
 y = y[,sort(colnames(y))]
 
 taxa = colnames(y)
-y    = unname(as.matrix(y))
+y    = unname(round(as.matrix(y)))
 #rownames(y) = NULL
 # y = y_build(counts, taxa_sub) # fix this if we want to use a subset of taxa
 

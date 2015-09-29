@@ -42,6 +42,13 @@ split_mi <- function(meta, longlat){
     centers_ll <- as.matrix(data.frame(centers_ll))
   }
   
+  if (!any(colnames(meta) == 'state')){
+    meta = data.frame(meta, state=rep(NA, nrow(meta)))
+    meta$state = map.where(database='state', centers_ll[,1], centers_ll[,2])
+    meta[((meta$state == 'michigan:south') & (!is.na(meta$state))), 'state'] = 'michigan_south'
+    meta[((meta$state == 'michigan:north') & (!is.na(meta$state))), 'state'] = 'michigan_north'
+  }
+  
   idx.mi = which(meta$state=='michigan_north')
   meta$state2 = as.vector(meta$state)
   meta$state2[idx.mi] = map.where(database="state", centers_ll[idx.mi,1], centers_ll[idx.mi,2])
@@ -73,6 +80,30 @@ split_mi <- function(meta, longlat){
   
   idx.bad = which((meta$state2=='michigan:north') & (meta$y<8e5))
   meta$state2[idx.bad] = 'michigan:south'
+  
+  idx.umw = which(meta$state2 %in% c('michigan:north', 'michigan:south', 'wisconsin', 'minnesota'))
+  idx.not.umw = which(!(meta$state2 %in% c('michigan:north', 'michigan:south', 'wisconsin', 'minnesota')))
+  if (length(idx.not.umw)>0){
+    for (i in 1:length(idx.not.umw)){
+      idx = idx.not.umw[i]
+      
+      centers = centers_ll[idx.umw,]
+      dmat    = rdist(matrix(centers_ll[idx,], nrow=1) , matrix(centers, ncol=2))
+      min.val = dmat[1,which.min(dmat[which(dmat>1e-10)])]
+      
+      idx_close = which(dmat == min.val)
+      state     = map.where(database="state", centers[idx_close,1], centers[idx_close,2])
+      
+      meta$state2[idx] = state
+    }
+  }
+  
+  
+#   meta$state2[which(meta$state2 == 'illinois')] = 'wisconsin'
+#   meta$state2[which(meta$state2 == 'north dakota')] = 'minnesota'
+#   meta$state2[which(meta$state2 == 'south dakota')] = 'minnesota'
+#   meta$state2[which(meta$state2 == 'ohio')] = 'michigan:south'
+#   meta$state2[which(meta$state2 == 'indiana')] = 'michigan:south'
   
   return(meta)
   
