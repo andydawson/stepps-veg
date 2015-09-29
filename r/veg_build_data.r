@@ -27,7 +27,7 @@ cells = -1
 clust.rat = 120
 #nclust    = 120
 #nclust    = 80
-nclust = 200
+nclust = nclust
 # clust.rat = 10
 
 # specify the taxa to use
