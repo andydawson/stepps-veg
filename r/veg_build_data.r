@@ -110,8 +110,8 @@ if (sum(left %in% taxa_other_con)>1){
 y = y[,sort(colnames(y))]
 
 taxa = colnames(y)
-y    = as.matrix(unname(y))
-rownames(y) = NULL
+y    = unname(as.matrix(y))
+#rownames(y) = NULL
 # y = y_build(counts, taxa_sub) # fix this if we want to use a subset of taxa
 
 K = as.integer(ncol(y))
