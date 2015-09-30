@@ -226,7 +226,7 @@ plot_data_maps <- function(y, centers, taxa, K, thresh, suff, save_plots, fpath)
   
   Sys.sleep(1)
   if (save_plots){
-    ggsave(file=paste(fpath, '/veg_data_maps_', suff, '.pdf', sep=''), scale=1)
+    ggsave(file=paste(fpath, '/veg_maps_data_', suff, '.pdf', sep=''), scale=1)
   }
   #   print(p)
 }
@@ -253,7 +253,7 @@ plot_pred_maps <- function(r_mean, centers, taxa, K, thresh, suff, save_plots, f
   
   Sys.sleep(1)
   if (save_plots){
-    ggsave(file=paste(fpath, '/veg_pred_maps_', suff, '.pdf', sep=''), scale=1)
+    ggsave(file=paste(fpath, '/veg_maps_props_', suff, '.pdf', sep=''), scale=1)
   }
   #   print(p)
 }
@@ -282,7 +282,7 @@ plot_process_maps <- function(g, centers, taxa, K, thresh, suff, save_plots, fpa
   
   Sys.sleep(1)
   if (save_plots){
-    ggsave(file=paste(fpath, '/veg_process_maps_', suff, '.pdf', sep=''), scale=1)
+    ggsave(file=paste(fpath, '/veg_maps_process_', suff, '.pdf', sep=''), scale=1)
   }
   #   print(p)
 }
